@@ -1,5 +1,0 @@
-001177723045 C:\Users\Khang\Downloads\LuaLoader\version 0.91\httpget.lua
-001177852166 C:\Users\Khang\Downloads\LuaLoader\version 0.91\LLbin.lua
-001180896775 C:\Users\Khang\Downloads\LuaLoader\version 0.91\xxd.lua
-001177837830 C:\Users\Peter\Documents\GitHub\LuaLoader\version 0.90\LLbin.lua
-001180866055 C:\Users\Peter\Documents\GitHub\LuaLoader\version 0.90\xxd.lua
