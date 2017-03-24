@@ -25,7 +25,7 @@ else
   print("failed to encode!")
 end
 
-http.post('http://192.168.43.185',
+http.post('http://192.168.2.42:3210',
   'Content-Type: application/json\r\n',
   json,
   function(code, data)
