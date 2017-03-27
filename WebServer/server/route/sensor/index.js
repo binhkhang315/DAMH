@@ -9,4 +9,9 @@ router.post('/updateData',function(req, res){
      })
 })
 
+router.post('/test', function(req, res){
+    console.log(req.body);
+    res.send({success: true});
+});
+
 module.exports = router;

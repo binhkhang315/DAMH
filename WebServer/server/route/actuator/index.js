@@ -7,7 +7,7 @@ router.post('/controlActuator', function(req, res){
      models.Actuator.findOne({
           where:{
                actuator: req.body.actuator
-          }
+          }         
      }).then(function(actuator){
           if(!actuator){
                var dataSend = {

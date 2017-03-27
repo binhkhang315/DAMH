@@ -1,5 +1,6 @@
 local mpu6050 = {};
 
+service = dofile("service.lua")
 dev_addr = 0x68 --104
 bus = 0
 
@@ -40,21 +41,21 @@ function mpu6050.read_MPU_raw()
      i2c.stop(bus)
      i2c.start(bus)
      i2c.address(bus, dev_addr, i2c.RECEIVER)
-     c=i2c.read(bus, 14)
+     c=i2c.read(bus, 6)
      i2c.stop(bus)
 
      Ax=bit.lshift(string.byte(c, 1), 8) + string.byte(c, 2)
      Ay=bit.lshift(string.byte(c, 3), 8) + string.byte(c, 4)
      Az=bit.lshift(string.byte(c, 5), 8) + string.byte(c, 6)
-     Gx=bit.lshift(string.byte(c, 9), 8) + string.byte(c, 10)
-     Gy=bit.lshift(string.byte(c, 11), 8) + string.byte(c, 12)
-     Gz=bit.lshift(string.byte(c, 13), 8) + string.byte(c, 14)
+--     Gx=bit.lshift(string.byte(c, 9), 8) + string.byte(c, 10)
+--     Gy=bit.lshift(string.byte(c, 11), 8) + string.byte(c, 12)
+--     Gz=bit.lshift(string.byte(c, 13), 8) + string.byte(c, 14)
 
-     print("Ax:"..Ax.."     Ay:"..Ay.."      Az:"..Az)
-     print("Gx:"..Gx.."   Gy:"..Gy.."   Gz:"..Gz)
-     --  print("\nTempH: "..string.byte(c, 7).." TempL: "..string.byte(c, 8).."\n")
-
-     return c, Ax, Ay, Az, Gx, Gy, Gz
+     Ax = string.format("%02.2f",service.convert_2_complement(Ax, 16)*2/32768)
+     Ay = string.format("%02.2f",service.convert_2_complement(Ay, 16)*2/32768)
+     Az = string.format("%02.2f",service.convert_2_complement(Az, 16)*2/32768)
+    ok, dataEncoded = pcall(cjson.encode, {Ax=Ax, Ay=Ay, Az=Az})
+     return dataEncoded
 end
 
 function mpu6050.status_MPU(dev_addr)

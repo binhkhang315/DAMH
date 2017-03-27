@@ -22,8 +22,8 @@ status = checkWifiStatus();
 
 if (status~=5) then
      station_cfg={}
-     station_cfg.ssid="Rovina coofee"
-     station_cfg.pwd="23456789"
+     station_cfg.ssid="TOTOLINK F2"
+     station_cfg.pwd="0913442277"
      station_cfg.save=true
      print("Connecting to access point"..station_cfg.ssid)
      if (wifi.sta.config(station_cfg)) then

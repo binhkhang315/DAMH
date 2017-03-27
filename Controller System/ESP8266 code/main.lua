@@ -12,7 +12,8 @@ mpu6050.init_MPU(reg.ACCEL_CONFIG,0x18)
 
 mpu6050.check_MPU(0x68)
 
-c, Ax, Ay, Az, Gx, Gy, Gz = mpu6050.read_MPU_raw()  -- one shot
+function sendData()
+Ax, Ay, Az, Gx, Gy, Gz = mpu6050.read_MPU_raw()  -- one shot
 -- read data from MPU6050 every 1s
 --tmr.alarm(0, 100, 1, function() mpu6050.read_MPU_raw() end)
 
@@ -25,7 +26,7 @@ else
   print("failed to encode!")
 end
 
-http.post('http://192.168.2.42:3210',
+http.post('http://192.168.100.3:3210/sensor/test',
   'Content-Type: application/json\r\n',
   json,
   function(code, data)
@@ -34,6 +35,19 @@ http.post('http://192.168.2.42:3210',
     else
       print(code, data)
     end
+end)
+
+end
+
+--data = {AX=123, Ay=456}
+--url = "192.168.100.3:3210/sensor/test"
+--
+--service.httpPost(url,data)
+
+tmr.alarm(0, 100, tmr.ALARM_AUTO, function()
+    c, Ax, Ay, Az, Gx, Gy, Gz = mpu6050.read_MPU_raw()
+--    data = {Ax=Ax, Ay=Ay, Az=Az, Gx=Gx, Gy=Gy, Gz=Gz}
+--    service.httpPost("192.168.100.3:3210/sensor/test", data)
 end)
 
 --stop tmr when done

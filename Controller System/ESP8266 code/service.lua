@@ -1,23 +1,29 @@
 local service = {}
-
-function service.convert(Ax,Ay,Ax,Gz,Gy,Gz)
-    Ax = service.convertAccel(Ax)
-    Ay = service.convertAccel(Ay)
-    Az = service.convertAccel(Az)
-
-    Gx = service.convertGyro(Gx)
-    Gy = service.convertGyro(Gy)
-    Gz = service.convertGyro(Gz)
-
-    return Ax,Ay,Ax,Gx,Gy,Gz
+--Function: conver n-bit 2’s complement value
+--Input: number: number to convert, bitLength: n-bit 2's complement value
+--Output: number after convert
+function service.convert_2_complement(number, bitLength)
+    if bit.isset(number,bitLength-1) then --check 4th bit of binary
+        return bit.bor(bit.lshift(-1,bitLength),number)
+    else
+        return number
+    end
 end
 
-function service.convertAccel(rawValue)
-    return rawValue*16/65536 - 16
-end
-
-function service.convertGyro(rawValue)
-    return rawValue*2000/65536 - 2000
+function service.httpPost(url,data)
+    url = "http://"..url
+    ok, dataEncoded = pcall(cjson.encode, data)
+    http.post(url,
+    'Content-Type: application/json\r\n',
+    dataEncoded,
+    function(code, dataResponse)
+        if (code<0) then
+            return false
+        else
+            print(dataResponse)
+            return true
+        end
+    end)
 end
 
 return service
